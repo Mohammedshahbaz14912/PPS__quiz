@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programming Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .quiz-container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .question h3 {
+            margin-bottom: 10px;
+        }
+        .options {
+            margin-left: 20px;
+        }
+        .options input {
+            margin-right: 10px;
+        }
+        button {
+            display: block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Programming Quiz</h1>
+        <form id="quiz-form">
+            <div id="quiz"></div>
+            <button type="button" onclick="submitQuiz()">Submit Quiz</button>
+        </form>
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        const questions = [
+            // Unit I: Introduction to Programming
+            { question: "Which of the following is NOT a fundamental data type in C?", 
+            options: ["int", "char", "float", "string"],
+             correct: 3 
+            },
+            {
+                 question: "What is the purpose of the main() function in a C program?", 
+            options: ["It is the entry point of the program.", "It defines the program's output.", 
+            "It handles input and output operations.", "It manages memory allocation."],
+             correct: 0 
+            },
+            { 
+                question: "Which of the following operators has the highest precedence?", 
+            options: ["+", "*", "++", "()"],
+             correct: 3
+             },
+            { 
+                question: "What is the correct syntax for declaring a variable in C?", 
+            options: ["int x;", "int x = 10;", "x = int 10;", "10 = int x;"],
+             correct: 0 
+            },
+            {
+                 question: "Which of the following is a valid C identifier?",
+             options: ["123_abc", "my_variable", "int", "#define"],
+              correct: 1
+             },
+            {
+                 question: "What is the output of the following code? \n#include <stdio.h>\n\nint main() {\n    printf(\"Hello, World!\\n\");\n    return 0;\n}\n",
+                 options: ["Hello, World!", "Error", "Nothing", "0"], 
+                 correct: 0
+                 },
+            {
+                 question: "Which of the following is a conditional statement in C?", options: ["if", "for", "while", "do-while"], correct: 0 },
+            { 
+                question: "What is the purpose of the break statement in a loop?", options: ["To continue to the next iteration of the loop.", "To exit the loop immediately.", "To skip the current iteration of the loop.", "To pause the execution of the loop."], correct: 1 },
+            {
+                 question: "Which of the following is a loop control statement in C?", options: ["continue", "goto", "return", "All of the above"], correct: 3 },
+            {
+                 question: "What is the output of the following code? \n#include <stdio.h>\n\nint main() {\n    int x = 10;\n    if (x > 5) {\n        printf(\"x is greater than 5\\n\");\n    } else {\n        printf(\"x is less than or equal to 5\\n\");\n    }\n    return 0;\n}\n", options: ["x is greater than 5", "x is less than or equal to 5", "Error", "Nothing"], correct: 0 },
+
+            // Unit II: Arrays, Strings, Structures, and Pointers
+            { 
+                question: "Which of the following is used to declare an array in C?", options: ["int array[10];", "int array = [10];", "array[10] = int;", "int array[10] = {1, 2, 3};"], correct: 0 },
+            {
+                 question: "What is the function used to find the length of a string in C?", options: ["strlen()", "length()", "strlength()", "find_length()"], correct: 0 },
+            {
+                 question: "What is a pointer in C?", options: ["A variable that stores the address of another variable.", "A special type of data structure.", "A function that returns a value.", "A keyword used to declare arrays."], correct: 0 },
+            {
+                 question: "How do you access the first element of an array named arr?", options: ["arr[0]", "arr[1]", "*arr", "&arr"], correct: 0 },
+            {
+                 question: "What is the purpose of the sizeof() operator in C?", options: ["To find the size of a variable.", "To find the size of an array.", "To find the size of a data type.", "All of the above."], correct: 3 },
+            {
+                 question: "What is the difference between a structure and a union in C?", options: ["Structures allow members to overlap, while unions do not.", "Unions allow members to overlap, while structures do not.", "Structures are used to define functions, while unions are used to define data types.", "There is no difference between structures and unions."], correct: 1 },
+            {
+                 question: "What is the purpose of the -> operator in C?", options: ["To access members of a structure using a pointer to the structure.", "To dereference a pointer.", "To declare a pointer.", "To compare two pointers."], correct: 0 },
+            {
+                 question: "What is the output of the following code?\n#include <stdio.h>\n\nint main() {\n    int arr[5] = {1, 2, 3, 4, 5};\n    int *ptr = arr;\n    printf(\"%d\", *(ptr+2));\n    return 0;\n}", options: ["1", "2", "3", "4"], correct: 2 },
+
+            // Unit III: Preprocessor and File Handling
+            {
+                 
+                question: "Which preprocessor directive is used to include header files?", options: ["#define", "#include", "#ifdef", "#endif"], correct: 1 },
+            {
+                 question: "What is the mode used to open a file for both reading and writing?", options: ["r", "w", "a", "r+"], correct: 3 },
+            { 
+                question: "Which function is used to read a character from a file in C?", options: ["fgetc()", "fputc()", "fscanf()", "fprintf()"], correct: 0 },
+            { 
+                question: "What is the purpose of the fclose() function in C?", options: ["To open a file.", "To close a file.", "To read from a file.", "To write to a file."], correct: 1 },
+            { 
+                question: "What is the purpose of the fseek() function in C?", options: ["To move the file pointer to a specific position in a file.", "To close a file.", "To read from a file.", "To write to a file."], correct: 0 },
+
+            // Unit IV: Functions and Dynamic Memory Allocation
+            { 
+                question: "What is the purpose of a function in C?", options: ["To define a variable.", "To declare a data type.", "To perform a specific task.", "To input and output data."], correct: 2 },
+            { 
+                question: "What is recursion?", options: ["A programming technique where a function calls itself directly or indirectly.", "A loop that repeats a block of code a fixed number of times.", "A data structure that stores elements in a linear fashion.", "A method to sort data in ascending or descending order."], correct: 0 },
+        ];
+
+        const quizContainer = document.getElementById("quiz");
+
+        function renderQuiz() {
+            questions.forEach((q, index) => {
+                const questionHTML = `
+                    <div class="question">
+                        <h3>${index + 1}. ${q.question}</h3>
+                        <div class="options">
+                            ${q.options.map((opt, i) => `
+                                <label>
+                                    <input type="radio" name="question${index}" value="${i}">
+                                    ${opt}
+                                </label><br>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                quizContainer.innerHTML += questionHTML;
+            });
+        }
+
+        function submitQuiz() {
+            const form = document.getElementById("quiz-form");
+            const formData = new FormData(form);
+            let score = 0;
+
+            questions.forEach((q, index) => {
+                const userAnswer = formData.get(`question${index}`);
+                if (userAnswer && parseInt(userAnswer) === q.correct) {
+                    score++;
+                }
+            });
+
+            const result = document.getElementById("result");
+            result.textContent = `You scored ${score} out of ${questions.length}`;
+        }
+
+        renderQuiz();
+    </script>
+</body>
+</html>
